@@ -1,13 +1,14 @@
-package pathfinder
+package pathfinder_test
 
 import (
+	"github.com/eliaperantoni/pathfinder"
 	"math"
 	"math/rand"
 	"testing"
 )
 
 func TestGraph_AddNode(t *testing.T) {
-	g := NewGraph()
+	g := pathfinder.NewGraph()
 	nodes := []interface{}{"Go", "Is", "Cool"}
 	for i, n := range nodes {
 		g.AddNode(n)
@@ -20,7 +21,7 @@ func TestGraph_AddNode(t *testing.T) {
 }
 
 func TestGraph_AddEdge(t *testing.T) {
-	g := NewGraph()
+	g := pathfinder.NewGraph()
 	nodes := []interface{}{"a", "b", "c", "d"}
 	edges := map[interface{}][]interface{}{
 		"a": {
@@ -206,7 +207,7 @@ func TestGraph_ShortestPath(t *testing.T) {
 			shortestPathOutput{
 				[]interface{}{},
 				math.Inf(1),
-				ErrNoPath,
+				pathfinder.ErrNoPath,
 			},
 		},
 		"Disabled node, can still succeed": {
@@ -279,7 +280,7 @@ func TestGraph_ShortestPath(t *testing.T) {
 			shortestPathOutput{
 				[]interface{}{},
 				math.Inf(1),
-				ErrNoPath,
+				pathfinder.ErrNoPath,
 			},
 		},
 		"Disabled node is DST": {
@@ -301,7 +302,7 @@ func TestGraph_ShortestPath(t *testing.T) {
 			shortestPathOutput{
 				[]interface{}{},
 				math.Inf(1),
-				ErrNoPath,
+				pathfinder.ErrNoPath,
 			},
 		},
 		"SRC and DST match": {
@@ -358,7 +359,7 @@ func TestGraph_ShortestPath(t *testing.T) {
 			shortestPathOutput{
 				[]interface{}{},
 				math.Inf(1),
-				ErrNoPath,
+				pathfinder.ErrNoPath,
 			},
 		},
 		"Loop": {
@@ -517,7 +518,7 @@ func TestGraph_ShortestPath(t *testing.T) {
 	}
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
-			g := NewGraph()
+			g := pathfinder.NewGraph()
 			for _, n := range tt.nodes {
 				g.AddNode(n.payload)
 				if n.disabled {
@@ -542,7 +543,7 @@ func TestGraph_ShortestPath(t *testing.T) {
 	}
 
 	t.Run("toggle node", func(t *testing.T) {
-		g := NewGraph()
+		g := pathfinder.NewGraph()
 		g.AddNode("a")
 		g.AddNode("b")
 		g.AddNode("c")
@@ -582,7 +583,7 @@ func BenchmarkGraph_ConstructFullyConnected100Nodes(b *testing.B) {
 	const nodesN = 100
 
 	for n := 0; n < b.N; n++ {
-		g := NewGraph()
+		g := pathfinder.NewGraph()
 		for i := 0; i < nodesN; i++ {
 			g.AddNode(i)
 		}
@@ -600,7 +601,7 @@ func BenchmarkGraph_ConstructFullyConnected100Nodes(b *testing.B) {
 func benchmarkGraph_ShortestPathXNodes(b *testing.B, nodesN int) {
 	const dropoutRate = .3
 
-	g := NewGraph()
+	g := pathfinder.NewGraph()
 	for i := 0; i < nodesN; i++ {
 		g.AddNode(i)
 	}
