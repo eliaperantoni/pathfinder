@@ -634,6 +634,17 @@ func BenchmarkGraph_ShortestPath1000Nodes(b *testing.B) {
 func ExampleGraph_ShortestPath() {
 	graph := pathfinder.NewGraph()
 
+	// In this example we're building this graph
+	//
+	//		A-------------------+
+	//		 \                   \
+	//        B                   C
+	//         \                   \
+	//          D-------------------+
+	//
+	// And finding the shortest path from A to D, assuming
+	// taking the C route is much more costly
+
 	// graph.AddNode(content)
 	graph.AddNode("a")
 	graph.AddNode("b")
@@ -641,10 +652,10 @@ func ExampleGraph_ShortestPath() {
 	graph.AddNode("d")
 
 	// graph.AddEdge(source, destination, cost)
-	graph.AddEdge("a", "b", 10)
-	graph.AddEdge("a", "c", 1)
+	graph.AddEdge("a", "b", 1)
+	graph.AddEdge("a", "c", 10)
 	graph.AddEdge("b", "d", 1)
-	graph.AddEdge("c", "d", 1)
+	graph.AddEdge("c", "d", 10)
 
 	path, cost, err := graph.ShortestPath("a", "d")
 	if err != nil {
@@ -657,7 +668,7 @@ func ExampleGraph_ShortestPath() {
 	fmt.Printf("Cost: %.2f\n", cost)
 	// Output: Path:
 	//	a
-	//	c
+	//	b
 	//	d
 	// Cost: 2.00
 }
