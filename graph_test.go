@@ -1,6 +1,7 @@
 package pathfinder_test
 
 import (
+	"fmt"
 	"github.com/eliaperantoni/pathfinder"
 	"math"
 	"math/rand"
@@ -628,4 +629,35 @@ func BenchmarkGraph_ShortestPath100Nodes(b *testing.B) {
 
 func BenchmarkGraph_ShortestPath1000Nodes(b *testing.B) {
 	benchmarkGraph_ShortestPathXNodes(b, 1000)
+}
+
+func ExampleGraph_ShortestPath() {
+	graph := pathfinder.NewGraph()
+
+	// graph.AddNode(content)
+	graph.AddNode("a")
+	graph.AddNode("b")
+	graph.AddNode("c")
+	graph.AddNode("d")
+
+	// graph.AddEdge(source, destination, cost)
+	graph.AddEdge("a", "b", 10)
+	graph.AddEdge("a", "c", 1)
+	graph.AddEdge("b", "d", 1)
+	graph.AddEdge("c", "d", 1)
+
+	path, cost, err := graph.ShortestPath("a", "d")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Path:")
+	for _, node := range path {
+		fmt.Printf("\t%s\n", node)
+	}
+	fmt.Printf("Cost: %.2f\n", cost)
+	// Output: Path:
+	//	a
+	//	c
+	//	d
+	// Cost: 2.00
 }
